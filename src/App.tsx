@@ -3,7 +3,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import ToDo from './pages/ToDo.tsx'
 import Done from './pages/Done.tsx'
-import './App.css'
+import getCheckList from './API/getChecklists.tsx'
+import './CSS/App.css'
 
 function App() {
   //const [count, setCount] = useState(0)
