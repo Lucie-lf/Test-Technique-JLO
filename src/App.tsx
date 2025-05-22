@@ -5,7 +5,7 @@ import ParamLogo from './assets/paramLogo.tsx'
 import Title1 from './assets/Title1.tsx'
 import Title2 from './assets/Title2.tsx'
 import getCheckList from './API/getChecklists.tsx'
-
+import ThemeParameter from './components/ThemeParameter.tsx'
 
 function App() {
 
@@ -13,9 +13,7 @@ function App() {
       <Router>
         
               <div className="header mx-auto justify-between flex flex-row items-center">
-                  <button className="paraButton">
-                    <ParamLogo className="fill-[#D9D9D9] w-10 hover:animate-spin hover:opacity-60"/>
-                  </button>
+                  <ThemeParameter/>
                   <Title2 className="fill-[#A3FE50] w-100"/>
                   <a href="/done" className="text-[#A3FE50] border-[#A3FE50] border-1 rounded-xl px-5 hover:opacity-75"> 
                       Finished Tasks
