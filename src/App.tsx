@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import 
 import ToDo from './pages/ToDo.tsx'
 import Done from './pages/Done.tsx'
 import ParamLogo from './assets/paramLogo.tsx'
@@ -13,9 +14,13 @@ function App() {
       <Router>
         
               <div className="header mx-auto justify-between flex flex-row items-center">
-                  <ThemeParameter/>
-                  <Title2 className="fill-[#A3FE50] w-100"/>
-                  <a href="/done" className="text-[#A3FE50] border-[#A3FE50] border-1 rounded-xl px-5 hover:opacity-75"> 
+                  <ThemeParameter options={[
+                    ['#3138CA', '#00ff2b'],
+                    ['#36151e', '#FF00CE'],
+                  ]}/>
+
+                  <Title2 className="fill-[#00ff2b] w-100"/>
+                  <a href="/done" className="text-[#00ff2b] border-[#00ff2b] border-1 rounded-xl px-5 hover:bg-[#D9D9D920]"> 
                       Finished Tasks
                   </a>
               </div>

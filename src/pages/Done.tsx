@@ -1,3 +1,5 @@
+import ThemeParameter from '../components/ThemeParameter.tsx'
+
 export default function Done() {
     return (
       <div className="flex flex-row justify-around items-start gap-15">
