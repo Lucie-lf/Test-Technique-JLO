@@ -41,7 +41,7 @@ function App() {
 
 
           <Title2 className="fill-accent w-100"/>
-            <a href="/done" className="text-accent border-accent border-1 rounded-xl px-5 hover:bg-text hover:opacity-20"> 
+            <a href="/done" className="text-text border-text border-1 rounded-full px-5 hover:bg-text/20"> 
                 Finished Tasks
             </a>
       </div>
@@ -67,7 +67,7 @@ function App() {
             setTheme={setTheme}/>
           } />
         </Routes>
-      </Router>
+    </Router>
   )
 }
 
