@@ -1,20 +1,17 @@
-type ThemeMenuProps = {
-    isDeployed: boolean
+type ThemeButtonProps = {
     options: string[][]
 }
 
-const ThemeMenu = ({ isDeployed, options }: ThemeMenuProps) => {
-    if (!isDeployed) return null;
-
+const ThemeButton = ({ options }: ThemeButtonProps) => {
     return (
         <div className="flex flex-col gap-3 -mt-10">
             {options.map(([mainColor, accentColor], index) => (
                 <div 
                 key={index}
-                className="flex flex-row justify-start gap-3 bg-[#D9D9D9] rounded-full  p-3 hover:opacity-80">
-                    <div className="w-6 h-6 rounded-full shadow" style={{backgroundColor: mainColor}}>
+                className="flex flex-row justify-start gap-3 bg-text rounded-[30px] p-3 hover:opacity-80">
+                    <div className="w-6 h-6 rounded-[30px] shadow" style={{backgroundColor: mainColor}}>
                     </div>
-                    <div className="w-6 h-6 rounded-full shadow"style={{backgroundColor: accentColor}}>
+                    <div className="w-6 h-6 rounded-[30px] shadow"style={{backgroundColor: accentColor}}>
                     </div>
                 </div>
             ))}
@@ -22,4 +19,4 @@ const ThemeMenu = ({ isDeployed, options }: ThemeMenuProps) => {
     )
 }
 
-export default ThemeMenu
+export default ThemeButton

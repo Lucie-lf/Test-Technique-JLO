@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 import {useState} from 'react'
 import ToDo from './pages/ToDo.tsx'
 import Done from './pages/Done.tsx'
@@ -6,14 +6,28 @@ import ParamLogo from './assets/paramLogo.tsx'
 import Title1 from './assets/Title1.tsx'
 import Title2 from './assets/Title2.tsx'
 import getCheckList from './API/getChecklists.tsx'
-import ThemeButton from './components/theme/ThemeButton.tsx'
+import ThemeMenu from './components/theme/ThemeMenu.tsx'
 
 function App() {
   const [isDeployed, setIsDeployed] = useState(false)
-
+  const [theme, setTheme] = useState('')
   const themeOptions = [
-    ['#3138CA', '#00ff2b'],
-    ['#36151e', '#FF00CE'],
+    {
+      name: 'green',
+      colors: ['primary', 'accent'],
+    }
+    , {
+      name: 'pink',
+      colors: ['primary', 'accent'],
+    }
+    , {
+      name: 'blue',
+      colors: ['primary', 'accent'],
+    }
+    , {
+      name: 'yellow',
+      colors: ['primary', 'accent'],
+    }
   ]
 
   return (
@@ -22,12 +36,12 @@ function App() {
         <button 
           onClick={() => setIsDeployed(prev => !prev)}
           className="paraButton">
-            <ParamLogo className="fill-[#D9D9D9] w-10 hover:animate-spin hover:opacity-60"/>
+            <ParamLogo className="fill-text w-10 hover:animate-spin hover:opacity-60"/>
         </button>
 
 
-          <Title2 className="fill-[#00ff2b] w-100"/>
-            <a href="/done" className="text-[#00ff2b] border-[#00ff2b] border-1 rounded-xl px-5 hover:bg-[#D9D9D920]"> 
+          <Title2 className="fill-accent w-100"/>
+            <a href="/done" className="text-accent border-accent border-1 rounded-xl px-5 hover:bg-text hover:opacity-20"> 
                 Finished Tasks
             </a>
       </div>
@@ -41,10 +55,16 @@ function App() {
         
         <Routes>
           <Route path="/" element={
-            <ToDo isDeployed={isDeployed} options={themeOptions} />
+            <ToDo 
+              isDeployed={isDeployed} 
+              themeNames={['green', 'pink', 'blue', 'yellow']} 
+              setTheme={setTheme}/>
           } />
           <Route path="/Done" element={
-            <Done isDeployed={isDeployed} options={themeOptions} />
+            <Done 
+            isDeployed={isDeployed} 
+            themeNames={['green', 'pink', 'blue', 'yellow']} 
+            setTheme={setTheme}/>
           } />
         </Routes>
       </Router>
