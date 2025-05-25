@@ -5,7 +5,7 @@ import Done from './pages/Done.tsx'
 import ParamLogo from './assets/paramLogo.tsx'
 import Title1 from './assets/Title1.tsx'
 import Title2 from './assets/Title2.tsx'
-import getCheckList from './API/getChecklists.tsx'
+import getCheckList from './API/getChecklist.tsx'
 import ThemeMenu from './components/theme/ThemeMenu.tsx'
 
 function App() {
