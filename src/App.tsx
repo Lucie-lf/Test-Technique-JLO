@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route} from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, useLocation, Link} from 'react-router-dom'
 import {useState} from 'react'
 import ToDo from './pages/ToDo.tsx'
 import Done from './pages/Done.tsx'
@@ -11,6 +11,7 @@ import ThemeMenu from './components/theme/ThemeMenu.tsx'
 function App() {
   const [isDeployed, setIsDeployed] = useState(false)
   const [theme, setTheme] = useState('')
+  const location = useLocation()
   const themeOptions = [
     {
       name: 'green',
@@ -30,8 +31,12 @@ function App() {
     }
   ]
 
+  const currentlyOnDonePage = location.pathname === '/done'
+  const navTarget = currentlyOnDonePage ? '/' : '/done'
+  const navText = currentlyOnDonePage ? 'Back to tasks' : 'Finished Tasks'
+
   return (
-      <Router>
+      <>
         <div className="header mx-auto justify-between flex flex-row items-center">
         <button 
           onClick={() => setIsDeployed(prev => !prev)}
@@ -41,9 +46,9 @@ function App() {
 
 
           <Title2 className="fill-accent w-100"/>
-            <a href="/done" className="text-text border-text border-1 rounded-full px-5 hover:bg-text/20"> 
-                Finished Tasks
-            </a>
+            <Link to={navTarget} className="text-text border-text border-1 rounded-full px-5 hover:bg-text/20"> 
+                {navText}
+            </Link>
       </div>
 
       <div className="body">
@@ -60,15 +65,16 @@ function App() {
               themeNames={['green', 'pink', 'blue', 'yellow']} 
               setTheme={setTheme}/>
           } />
-          <Route path="/Done" element={
+          <Route path="/done" element={
             <Done 
             isDeployed={isDeployed} 
             themeNames={['green', 'pink', 'blue', 'yellow']} 
             setTheme={setTheme}/>
           } />
         </Routes>
-    </Router>
+    </>
   )
 }
 
-export default App
+
+export default App;
