@@ -64,19 +64,19 @@
 }
 
 .pink {
-  --primary: #5e4134;
-  --secondary: #35241d;
-  --tertiary: #0d0907;
-  --accent: #ff00ce;
-  --text: #efa9d9;
+  --primary: #45495e;
+  --secondary: #282a36;
+  --tertiary: #09090c;
+  --accent: #f472b6;
+  --text: #eceff4;
 }
 
 .blue {
-  --primary: #531253;
-  --secondary: #33032f;
-  --tertiary: #170312;
-  --accent: #00ffec;
-  --text: #c2fffb;
+  --primary: #ECEFF4;
+  --secondary: #76828c;
+  --tertiary: #3b4c58;
+  --accent: #5E81AC;
+  --text: #001524;
 }
 
 .yellow {

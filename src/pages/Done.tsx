@@ -1,18 +1,10 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import ThemeMenu from "../components/theme/ThemeMenu.tsx";
-import getCheckList from "../API/getChecklist.tsx";
-import deleteCheckList from "../API/deleteChecklist.tsx";
-import updateCheckLists from "../API/updateChecklists.tsx";
 import { Toaster } from "../components/notifs/sonner";
 import { toast } from "sonner"
- 
-type Task = {
-  createdAt: string;
-  description: string;
-  isComplete: boolean;
-  id: string;
-};
+import { getChecklist, updateChecklist, deleteChecklist } from "../API/crudChecklist.ts";
+import type { Task } from "../types/Task.ts";
 
 type DoneProps = {
   isDeployed: boolean;
@@ -25,7 +17,7 @@ export default function Done({isDeployed}: DoneProps) {
   const [editingTaskDescription, setEditingTaskDescription] = useState<string>("");
   
   const handleUpdateChecklist = async (id: string, newDescription: string) => {
-    const updatedTask = await updateCheckLists(id, {
+    const updatedTask = await updateChecklist(id, {
       description: newDescription, 
       createdAt: new Date().toISOString()
     });
@@ -41,7 +33,7 @@ export default function Done({isDeployed}: DoneProps) {
 
  const handleDeleteCompletedChecklist = async () => {
    const completedChecklist = tasks.filter(task => task.isComplete);
-   const deletePromises = completedChecklist.map(task => deleteCheckList(task.id));
+   const deletePromises = completedChecklist.map(task => deleteChecklist(task.id));
   
    await Promise.all(deletePromises);
 
@@ -51,7 +43,7 @@ export default function Done({isDeployed}: DoneProps) {
 
 useEffect(() => {
   const fetchTasks = async () => {
-    const allTasks = await getCheckList();
+    const allTasks = await getChecklist();
     setTasks(allTasks);
   }
 
@@ -78,7 +70,7 @@ return (
                     type="checkbox"
                     checked={task.isComplete}
                     onChange={async() => {
-                      const updatedTask = await updateCheckLists(task.id, {
+                      const updatedTask = await updateChecklist(task.id, {
                           isComplete: !task.isComplete,
                       });
                       if (updatedTask) {

@@ -1,4 +1,4 @@
-const updateCheckLists = async (
+const updateCheckList = async (
     id: string, 
     updatedFields: Partial<{
         description: string; 
@@ -39,4 +39,4 @@ const updateCheckLists = async (
     }
 };
     
-export default updateCheckLists;
+export default updateCheckList;

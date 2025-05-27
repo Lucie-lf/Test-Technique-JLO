@@ -1,19 +1,10 @@
 import ThemeMenu from "../components/theme/ThemeMenu";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import getCheckList from "../API/getChecklist";
-import createCheckList from "../API/createChecklist";
-import deleteCheckList from "../API/deleteChecklist";
-import updateCheckLists from "../API/updateChecklists";
 import { toast } from "sonner";
 import { Toaster } from "../components/notifs/sonner";
-
-type Task = {
-    createdAt: string;
-    description: string;
-    isComplete: boolean;
-    id: string;
-};
+import type { Task } from "../types/Task.ts";
+import {createChecklist, getChecklist, deleteChecklist, updateChecklist} from "../API/crudChecklist.ts";
 
 type ToDoProps = {
     isDeployed: boolean;
@@ -26,55 +17,66 @@ export default function ToDo({isDeployed}: ToDoProps) {
     const [newTask, setNewTask] = useState("");
     const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
     const [editingTaskDescription, setEditingTaskDescription] = useState<string>("");
+
     const handleCreateChecklist = async () => {
         if (newTask.trim() === "") {
-            return;
+            return false;
         }
+
         const task: Task = {
             createdAt: new Date().toISOString(),
             description: newTask,
             isComplete: false,
         };
-        const createdTask = await createCheckList(task);
+
+        const createdTask = await createChecklist(task);
         if (createdTask) {
             setTasks([...tasks, createdTask]);
             setNewTask("");
             toast.success("Task created successfully!");
+        } else {
+            toast.error("Failed to create task.");
         }
     }
 
     useEffect(() => {
         async function fetchTasks() {
-            const checklists = await getCheckList();
+            const checklists = await getChecklist();
             if (checklists) {
-                setTasks(checklists);
-
-                const sortedTasks = checklists.sort((a, b) => 
-                    new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-                    setTasks(sortedTasks);
-            }
+                const sortedTasks = checklists.sort((a, b) =>
+                    new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+            );
+            setTasks(sortedTasks);
         }
-        fetchTasks();
+    }
+    fetchTasks();
     },[location.pathname]);
 
     const tasksUndone = tasks.filter(task => !task.isComplete);
 
     const handleDeleteChecklist = async (id: string) => {
-        const success = await deleteCheckList(id);
-        if (success) {
+        const deletedTask = await deleteChecklist(id);
+        if (deletedTask) {
             setTasks((prevTasks) => prevTasks.filter(task => task.id !== id));
+            toast.success("Task deleted successfully!");
         }
-    toast.success("Task deleted successfully!");
+        else {
+            toast.error("Failed to delete task.");
+        }
+    
     };
 
     const handleUpdateChecklist = async (id: string, newDescription: string) => {
-        const updatedTask = await updateCheckLists(id, {description: newDescription, createdAt: new Date().toISOString()});
+        const updatedTask = await updateChecklist(id, {description: newDescription, createdAt: new Date().toISOString()});
         if (updatedTask) {
             setTasks((prevTasks) =>
                 prevTasks.map((task) => 
                     (task.id === id ? {...task, description: updatedTask.description} : task))
             );
             toast.success("Task modified successfully!");
+        }
+        else {
+            toast.error("Failed to update task.");
         }
     };
 
@@ -95,7 +97,7 @@ export default function ToDo({isDeployed}: ToDoProps) {
                         type="checkbox"
                         checked={task.isComplete}
                         onChange={async() => {
-                            const updatedTask = await updateCheckLists(task.id, {
+                            const updatedTask = await updateChecklist(task.id, {
                                 isComplete: !task.isComplete,
                             });
                             if (updatedTask) {
@@ -148,7 +150,8 @@ export default function ToDo({isDeployed}: ToDoProps) {
                         </div>
                         <button 
                         className="hidden group-hover:flex ml-10 h-5 w-6 justify-center items-center border-2 border-text text-text rounded-full hover:bg-red-700"
-                        onClick={() => handleDeleteChecklist(task.id)}>
+                        onClick={() => handleDeleteChecklist(task.id)}
+                        aria-label="Delete task">
                             ×
                         </button>
                 </div>
@@ -169,7 +172,8 @@ export default function ToDo({isDeployed}: ToDoProps) {
                 
                 <button 
                 onClick={handleCreateChecklist}
-                className="cursor-pointer bg-accent text-primary font-extrabold rounded-full w-10 h-10 hover:bg-text/20">
+                className="cursor-pointer bg-accent text-primary font-extrabold rounded-full w-10 h-10 hover:bg-text/20"
+                aria-label="Add the task">
                     +
                 </button>
 
