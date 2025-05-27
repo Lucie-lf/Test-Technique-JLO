@@ -4,7 +4,9 @@ import ThemeMenu from "../components/theme/ThemeMenu.tsx";
 import getCheckList from "../API/getChecklist.tsx";
 import deleteCheckList from "../API/deleteChecklist.tsx";
 import updateCheckLists from "../API/updateChecklists.tsx";
-
+import { Toaster } from "../components/notifs/sonner";
+import { toast } from "sonner"
+ 
 type Task = {
   createdAt: string;
   description: string;
@@ -35,6 +37,7 @@ export default function Done({isDeployed, themeNames, setTheme}: DoneProps) {
                 task.id === id ? {...task, description: updatedTask.description} : task
          )
       );
+      toast.success("Task modified successfully!");
     }
 };
 
@@ -45,20 +48,8 @@ export default function Done({isDeployed, themeNames, setTheme}: DoneProps) {
    await Promise.all(deletePromises);
 
    setTasks(prev => prev.filter(task => !task.isComplete));
+    toast.success("Completed tasks deleted successfully!");
  };
-
-const handleCheckboxComplete = async (id: string, current: boolean) => {
-  const updatedTask = await updateCheckLists(id, {
-    isComplete: !current,
-  });
-  if (updatedTask) {
-    setTasks((prev) =>
-      prev.map((task) => 
-        task.id === id ? {...task, isComplete: updatedTask.isComplete} : task
-  )
-    );
-  }
-}
 
 useEffect(() => {
   const fetchTasks = async () => {
@@ -98,6 +89,7 @@ return (
                             prev.map(t => 
                                 t.id === task.id ? {...t, isComplete: updatedTask.isComplete} : t
                         ));
+                        toast.success(`Task ${updatedTask.isComplete ? "completed" : "reopened"} successfully!`);
                       }
                     }}
                     className="mr-10 h-5 w-5 border-1 rounded hover:accent-secondary accent-accent border-tertiary"
@@ -153,6 +145,7 @@ return (
                 ×
             </button>
         </div>
+        <Toaster/>
         </div>
     );
 }

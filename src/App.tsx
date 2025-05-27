@@ -7,7 +7,6 @@ import Title1 from './assets/Title1.tsx'
 import Title2 from './assets/Title2.tsx'
 import getCheckList from './API/getChecklist.tsx'
 import ThemeMenu from './components/theme/ThemeMenu.tsx'
-
 function App() {
   const [isDeployed, setIsDeployed] = useState(false)
   const [theme, setTheme] = useState('')
@@ -75,6 +74,5 @@ function App() {
     </>
   )
 }
-
 
 export default App;

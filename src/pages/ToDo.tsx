@@ -5,6 +5,8 @@ import getCheckList from "../API/getChecklist";
 import createCheckList from "../API/createChecklist";
 import deleteCheckList from "../API/deleteChecklist";
 import updateCheckLists from "../API/updateChecklists";
+import { toast } from "sonner";
+import { Toaster } from "../components/notifs/sonner";
 
 type Task = {
     createdAt: string;
@@ -40,6 +42,7 @@ export default function ToDo({isDeployed, themeNames, setTheme}: ToDoProps) {
         if (createdTask) {
             setTasks([...tasks, createdTask]);
             setNewTask("");
+            toast.success("Task created successfully!");
         }
     }
 
@@ -60,6 +63,7 @@ export default function ToDo({isDeployed, themeNames, setTheme}: ToDoProps) {
         if (success) {
             setTasks((prevTasks) => prevTasks.filter(task => task.id !== id));
         }
+    toast.success("Task deleted successfully!");
     };
 
     const handleUpdateChecklist = async (id: string, newDescription: string) => {
@@ -69,6 +73,7 @@ export default function ToDo({isDeployed, themeNames, setTheme}: ToDoProps) {
                 prevTasks.map((task) => 
                     (task.id === id ? {...task, description: updatedTask.description} : task))
             );
+            toast.success("Task modified successfully!");
         }
     };
 
@@ -99,6 +104,7 @@ export default function ToDo({isDeployed, themeNames, setTheme}: ToDoProps) {
                                     prev.map(t => 
                                         t.id === task.id ? {...t, isComplete: updatedTask.isComplete} : t
                                 ));
+                                toast.success(`Task ${updatedTask.isComplete ? "completed" : "reopened"} successfully!`);
                             }
                           }}
                         className="mr-10 h-5 w-5 border-1 rounded border-text hover:accent-accent hover:border-accent"
@@ -156,6 +162,10 @@ export default function ToDo({isDeployed, themeNames, setTheme}: ToDoProps) {
                     className="border-2 border-accent  text-text rounded-full flex w-stretch px-5 py-2"
                     value={newTask}
                     onChange={(e) => setNewTask(e.target.value)}
+                    onKeyDown={(f) => {
+                    if (f.key === "Enter") {
+                        handleCreateChecklist()}
+                    }}
                 />
                 
                 <button 
@@ -166,7 +176,8 @@ export default function ToDo({isDeployed, themeNames, setTheme}: ToDoProps) {
 
             </div>
         </div>   
-            
+        <Toaster/>
         </div>
+
       )
 }
