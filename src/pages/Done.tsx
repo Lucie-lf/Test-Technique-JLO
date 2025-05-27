@@ -16,11 +16,9 @@ type Task = {
 
 type DoneProps = {
   isDeployed: boolean;
-  themeNames: string[];
-  setTheme: (theme: string) => void;
   };
 
-export default function Done({isDeployed, themeNames, setTheme}: DoneProps) {
+export default function Done({isDeployed}: DoneProps) {
   const location = useLocation();
   const [tasks, setTasks] = useState<Task[]>([]);
   const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
@@ -67,8 +65,7 @@ return (
       <div className="flex flex-row justify-around items-start gap-15">
             <ThemeMenu 
             isDeployed={isDeployed} 
-            themeNames={themeNames} 
-            onSelect={setTheme}/>
+            />
       <div className="w-full flex flex-col gap-5">
             <div className="w-full flex flex-col p-10 mt-5 rounded-[40px] gap-1 border-accent border-2 bg-secondary">
               {doneTasks.length === 0 && <div className="text-center text-text">nothing yet!!</div>}

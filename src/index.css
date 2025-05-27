@@ -47,7 +47,7 @@
 
   
 }
-:root[data-theme='green'] {
+:root {
   --primary: #3138ce;
   --secondary: #202583;
   --tertiary: #101242;
@@ -55,7 +55,15 @@
   --text: #D9D9D9;
 }
 
-:root[data-theme='pink'] {
+.green {
+  --primary: #3138ce;
+  --secondary: #202583;
+  --tertiary: #101242;
+  --accent: #00ff2b;
+  --text: #D9D9D9;
+}
+
+.pink {
   --primary: #5e4134;
   --secondary: #35241d;
   --tertiary: #0d0907;
@@ -63,7 +71,7 @@
   --text: #efa9d9;
 }
 
-:root[data-theme='blue'] {
+.blue {
   --primary: #531253;
   --secondary: #33032f;
   --tertiary: #170312;
@@ -71,7 +79,7 @@
   --text: #c2fffb;
 }
 
-:root[data-theme='yellow'] {
+.yellow {
   --primary: #5998c5;
   --secondary: #356e97;
   --tertiary: #20425b;

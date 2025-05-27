@@ -17,18 +17,15 @@ type Task = {
 
 type ToDoProps = {
     isDeployed: boolean;
-    themeNames: string[];
-    setTheme: (theme: string) => void;
     };
 
-export default function ToDo({isDeployed, themeNames, setTheme}: ToDoProps) {
+export default function ToDo({isDeployed}: ToDoProps) {
 
     const location = useLocation();
     const [tasks, setTasks] = useState<Task[]>([]);
     const [newTask, setNewTask] = useState("");
     const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
     const [editingTaskDescription, setEditingTaskDescription] = useState<string>("");
-    const [checkedTasks, setCheckedTasks] = useState<string[]>([]);
     const handleCreateChecklist = async () => {
         if (newTask.trim() === "") {
             return;
@@ -51,6 +48,10 @@ export default function ToDo({isDeployed, themeNames, setTheme}: ToDoProps) {
             const checklists = await getCheckList();
             if (checklists) {
                 setTasks(checklists);
+
+                const sortedTasks = checklists.sort((a, b) => 
+                    new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+                    setTasks(sortedTasks);
             }
         }
         fetchTasks();
@@ -81,8 +82,6 @@ export default function ToDo({isDeployed, themeNames, setTheme}: ToDoProps) {
         <div className="flex flex-row justify-around items-start gap-15">
             <ThemeMenu 
             isDeployed={isDeployed} 
-            themeNames={themeNames} 
-            onSelect={setTheme}
             />
         <div className="w-full flex flex-col gap-5">
 

@@ -5,30 +5,10 @@ import Done from './pages/Done.tsx'
 import ParamLogo from './assets/paramLogo.tsx'
 import Title1 from './assets/Title1.tsx'
 import Title2 from './assets/Title2.tsx'
-import getCheckList from './API/getChecklist.tsx'
-import ThemeMenu from './components/theme/ThemeMenu.tsx'
+
 function App() {
   const [isDeployed, setIsDeployed] = useState(false)
-  const [theme, setTheme] = useState('')
   const location = useLocation()
-  const themeOptions = [
-    {
-      name: 'green',
-      colors: ['primary', 'accent'],
-    }
-    , {
-      name: 'pink',
-      colors: ['primary', 'accent'],
-    }
-    , {
-      name: 'blue',
-      colors: ['primary', 'accent'],
-    }
-    , {
-      name: 'yellow',
-      colors: ['primary', 'accent'],
-    }
-  ]
 
   const currentlyOnDonePage = location.pathname === '/done'
   const navTarget = currentlyOnDonePage ? '/' : '/done'
@@ -60,15 +40,12 @@ function App() {
         <Routes>
           <Route path="/" element={
             <ToDo 
-              isDeployed={isDeployed} 
-              themeNames={['green', 'pink', 'blue', 'yellow']} 
-              setTheme={setTheme}/>
+              isDeployed={isDeployed}
+              />
           } />
           <Route path="/done" element={
             <Done 
-            isDeployed={isDeployed} 
-            themeNames={['green', 'pink', 'blue', 'yellow']} 
-            setTheme={setTheme}/>
+            isDeployed={isDeployed} />
           } />
         </Routes>
     </>
