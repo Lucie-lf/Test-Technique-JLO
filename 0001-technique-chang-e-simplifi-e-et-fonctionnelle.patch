@@ -1,0 +1,444 @@
+From e53db027a73df3f7751ecd3723f7a2cfbe0408ae Mon Sep 17 00:00:00 2001
+From: Lucie-lf <lucie.le-foll@epitech.eu>
+Date: Tue, 27 May 2025 22:56:08 +0200
+Subject: [PATCH] =?UTF-8?q?technique=20chang=C3=A9e,=20simplifi=C3=A9e=20e?=
+ =?UTF-8?q?t=20fonctionnelle?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ index.html                             |   2 +-
+ src/App.tsx                            |  31 +------
+ src/components/notifs/sonner.tsx       |   3 -
+ src/components/theme/ThemeMenu.tsx     | 107 ++++++++++++++-----------
+ src/components/theme/ThemeProvider.tsx |  41 ----------
+ src/components/theme/theme.d.ts        |  11 ---
+ src/index.css                          |  16 +++-
+ src/main.tsx                           |   3 -
+ src/pages/Done.tsx                     |   7 +-
+ src/pages/ToDo.tsx                     |  11 ++-
+ 10 files changed, 83 insertions(+), 149 deletions(-)
+ delete mode 100644 src/components/theme/ThemeProvider.tsx
+ delete mode 100644 src/components/theme/theme.d.ts
+
+diff --git a/index.html b/index.html
+index 8c620fc..1b3d32d 100644
+--- a/index.html
++++ b/index.html
+@@ -1,5 +1,5 @@
+ <!doctype html>
+-<html lang="en" class="bg-primary mx-30 my-20">
++<html lang="en" class="pink bg-primary mx-30 my-20">
+   <head>
+     <meta charset="UTF-8" />
+     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+diff --git a/src/App.tsx b/src/App.tsx
+index dde6f3d..b81e3b6 100644
+--- a/src/App.tsx
++++ b/src/App.tsx
+@@ -5,30 +5,10 @@ import Done from './pages/Done.tsx'
+ import ParamLogo from './assets/paramLogo.tsx'
+ import Title1 from './assets/Title1.tsx'
+ import Title2 from './assets/Title2.tsx'
+-import getCheckList from './API/getChecklist.tsx'
+-import ThemeMenu from './components/theme/ThemeMenu.tsx'
++
+ function App() {
+   const [isDeployed, setIsDeployed] = useState(false)
+-  const [theme, setTheme] = useState('')
+   const location = useLocation()
+-  const themeOptions = [
+-    {
+-      name: 'green',
+-      colors: ['primary', 'accent'],
+-    }
+-    , {
+-      name: 'pink',
+-      colors: ['primary', 'accent'],
+-    }
+-    , {
+-      name: 'blue',
+-      colors: ['primary', 'accent'],
+-    }
+-    , {
+-      name: 'yellow',
+-      colors: ['primary', 'accent'],
+-    }
+-  ]
+ 
+   const currentlyOnDonePage = location.pathname === '/done'
+   const navTarget = currentlyOnDonePage ? '/' : '/done'
+@@ -60,15 +40,12 @@ function App() {
+         <Routes>
+           <Route path="/" element={
+             <ToDo 
+-              isDeployed={isDeployed} 
+-              themeNames={['green', 'pink', 'blue', 'yellow']} 
+-              setTheme={setTheme}/>
++              isDeployed={isDeployed}
++              />
+           } />
+           <Route path="/done" element={
+             <Done 
+-            isDeployed={isDeployed} 
+-            themeNames={['green', 'pink', 'blue', 'yellow']} 
+-            setTheme={setTheme}/>
++            isDeployed={isDeployed} />
+           } />
+         </Routes>
+     </>
+diff --git a/src/components/notifs/sonner.tsx b/src/components/notifs/sonner.tsx
+index c7b9873..75fe601 100644
+--- a/src/components/notifs/sonner.tsx
++++ b/src/components/notifs/sonner.tsx
+@@ -1,12 +1,9 @@
+-import { useTheme } from "next-themes"
+ import { Toaster as Sonner } from "sonner"
+ 
+ const Toaster = (props: any) => {
+-  const { theme = "system" } = useTheme()
+ 
+   return (
+     <Sonner
+-      theme={theme as "green" | "pink" | "blue" | "yellow" | "system"}
+       className="toaster group border-accent bg-accent text-text"
+       {...props}
+     />
+diff --git a/src/components/theme/ThemeMenu.tsx b/src/components/theme/ThemeMenu.tsx
+index b8247c0..5c86c0b 100644
+--- a/src/components/theme/ThemeMenu.tsx
++++ b/src/components/theme/ThemeMenu.tsx
+@@ -1,64 +1,75 @@
+-import {useTheme} from './ThemeProvider.tsx';
+-import { useEffect, useState } from 'react';
++import { toast } from 'sonner';
+ 
+ type ThemeMenuProps = {
+     isDeployed: boolean
+-    themeNames: string[]
+-    onSelect: (theme: string) => void
+ }
+ 
+-const ThemeMenu = ({ isDeployed, themeNames, onSelect }: ThemeMenuProps) => {
+-    const {theme, setTheme} = useTheme();
+-    const [colors, setColors] = useState<Record<string, [string, string]>>({});
++const ThemeMenu = ({ isDeployed}: ThemeMenuProps) => {
++    const setTheme = (color: "green" | "pink" | "blue" | "yellow") => {
++    const html = document.documentElement;
++    const themes = ["pink", "blue", "yellow", "green"];
+ 
+-    useEffect(() => {
+-        const getColors = async () => {
+-            const result: Record<string, [string, string]> = {}
+-            const root = document.documentElement
+-            const originalTheme = root.getAttribute('data-theme') || 'green'
++    html.classList.remove(...themes);
++    html.classList.add(color);
++    };
+ 
+-            for (const themeName of themeNames) {
+-                root.setAttribute('data-theme', themeName)
+-                await new Promise(requestAnimationFrame)
+-
+-                const style = getComputedStyle(root)
+-                const primary = style.getPropertyValue('--primary').trim()
+-                const accent = style.getPropertyValue('--accent').trim()
+-
+-                result[themeName] = [primary, accent]
+-            }
+-
+-            root.setAttribute('data-theme', originalTheme)
+-            setColors(result)
+-        }
+-
+-        getColors()
+-    }, [themeNames, theme])
+-
+-    if (!isDeployed) return null;
++    if (!isDeployed) {
++        return null;
++    }
+ 
+     return (
+         <div className="flex flex-col gap-3 -mt-10">
+-            {themeNames.map((name, index) => {
+-                const [primary, accent] = colors[name]  || ['#000', '#fff'];
+-            
+-            return (
+-                <div 
+-                    key={index}
+-                    onClick={() => {
+-                        console.log(`Selected theme: ${name}`);
+-                        setTheme(name);
+-                        onSelect(name);
+-                    }}
+-                    className="cursor-pointer flex flex-row justify-start gap-3 bg-text rounded-full  p-3 hover:opacity-80"
+-                >
+-                    <div className="w-6 h-6 rounded-full shadow" style={{backgroundColor: primary }}>
++            <div 
++                onClick={() => {
++                console.log(`Selected theme: green`);
++                setTheme("green");
++                toast.success("Theme changed to green!");
++                }}
++                    className="cursor-pointer flex flex-row justify-start gap-3 bg-text rounded-full  p-3 hover:opacity-80">
++                    <div className="green bg-primary w-6 h-6 rounded-full shadow" >
++                    </div>
++                    <div className="green bg-accent w-6 h-6 rounded-full shadow">
+                     </div>
+-                    <div className="w-6 h-6 rounded-full shadow"style={{backgroundColor: accent}}>
++            </div>
++
++            <div 
++                onClick={() => {
++                console.log(`Selected theme: pink`);
++                setTheme("pink");
++                toast.success("Theme changed to pink!");
++                }}
++                    className="cursor-pointer flex flex-row justify-start gap-3 bg-text rounded-full  p-3 hover:opacity-80">
++                    <div className="pink bg-primary w-6 h-6 rounded-full shadow" >
++                    </div>
++                    <div className="pink bg-accent w-6 h-6 rounded-full shadow">
++                    </div>
++            </div>
++
++            <div 
++                onClick={() => {
++                console.log(`Selected theme: blue`);
++                setTheme("blue");
++                toast.success("Theme changed to blue!");
++                }}
++                    className="cursor-pointer flex flex-row justify-start gap-3 bg-text rounded-full  p-3 hover:opacity-80">
++                    <div className="blue bg-primary w-6 h-6 rounded-full shadow" >
++                    </div>
++                    <div className="blue bg-accent w-6 h-6 rounded-full shadow">
++                    </div>
++            </div>
++
++            <div 
++                onClick={() => {
++                console.log(`Selected theme: yellow`);
++                setTheme("yellow");
++                toast.success("Theme changed to yellow!");
++                }}
++                    className="cursor-pointer flex flex-row justify-start gap-3 bg-text rounded-full  p-3 hover:opacity-80">
++                    <div className="yellow bg-primary w-6 h-6 rounded-full shadow" >
+                     </div>
++                    <div className="yellow bg-accent w-6 h-6 rounded-full shadow">
+                     </div>
+-                )
+-            })}
++            </div>
+         </div>
+     )
+ }
+diff --git a/src/components/theme/ThemeProvider.tsx b/src/components/theme/ThemeProvider.tsx
+deleted file mode 100644
+index 17d6d7d..0000000
+--- a/src/components/theme/ThemeProvider.tsx
++++ /dev/null
+@@ -1,41 +0,0 @@
+-import {createContext, useContext, useState, useEffect, ReactNode, } from 'react';
+-import type {TheseColors, ThemeProviderProps, ThemeProviderState} from './theme.d';
+-
+-const initialState: ThemeProviderState = {
+-    theme: 'green',
+-    setTheme: () => null,
+-}
+-
+-const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
+-
+-export function ThemeProvider({children, defaultTheme = 'green', ...props}: ThemeProviderProps) {
+-    const [storedTheme, setStoredTheme] = useState<TheseColors>(() => {
+-        return (localStorage.getItem('theme') as TheseColors) || defaultTheme;
+-    })
+-
+-    useEffect(() => {
+-        document.documentElement.setAttribute('data-theme', storedTheme)
+-        localStorage.setItem('theme', storedTheme)
+-    }, [storedTheme]);
+-
+-    const value = {
+-        theme: storedTheme,
+-        setTheme: (theme: TheseColors) => {
+-            setStoredTheme(theme);
+-        },
+-    };
+-
+-    return (
+-        <ThemeProviderContext.Provider value={value} {...props}>
+-            {children}
+-        </ThemeProviderContext.Provider>
+-    );
+-}
+-
+-export const useTheme = () => {
+-    const context = useContext(ThemeProviderContext);
+-    if (!context) {
+-        throw new Error('useTheme must be used within a ThemeProvider');
+-    }
+-    return context;
+-}
+\ No newline at end of file
+diff --git a/src/components/theme/theme.d.ts b/src/components/theme/theme.d.ts
+deleted file mode 100644
+index 2db09f3..0000000
+--- a/src/components/theme/theme.d.ts
++++ /dev/null
+@@ -1,11 +0,0 @@
+-export type TheseColors = 'green' | 'pink' | 'blue' | 'yellow';
+-
+-export type ThemeProviderProps = {
+-    children: React.ReactNode
+-    defaultTheme?: TheseColors
+-}
+-
+-export type ThemeProviderState = {
+-    theme: TheseColors
+-    setTheme: (theme: TheseColors) => void
+-}
+\ No newline at end of file
+diff --git a/src/index.css b/src/index.css
+index fece1c0..b5e2114 100644
+--- a/src/index.css
++++ b/src/index.css
+@@ -47,7 +47,7 @@
+ 
+   
+ }
+-:root[data-theme='green'] {
++:root {
+   --primary: #3138ce;
+   --secondary: #202583;
+   --tertiary: #101242;
+@@ -55,7 +55,15 @@
+   --text: #D9D9D9;
+ }
+ 
+-:root[data-theme='pink'] {
++.green {
++  --primary: #3138ce;
++  --secondary: #202583;
++  --tertiary: #101242;
++  --accent: #00ff2b;
++  --text: #D9D9D9;
++}
++
++.pink {
+   --primary: #5e4134;
+   --secondary: #35241d;
+   --tertiary: #0d0907;
+@@ -63,7 +71,7 @@
+   --text: #efa9d9;
+ }
+ 
+-:root[data-theme='blue'] {
++.blue {
+   --primary: #531253;
+   --secondary: #33032f;
+   --tertiary: #170312;
+@@ -71,7 +79,7 @@
+   --text: #c2fffb;
+ }
+ 
+-:root[data-theme='yellow'] {
++.yellow {
+   --primary: #5998c5;
+   --secondary: #356e97;
+   --tertiary: #20425b;
+diff --git a/src/main.tsx b/src/main.tsx
+index 23bde2d..3a86b9a 100644
+--- a/src/main.tsx
++++ b/src/main.tsx
+@@ -1,16 +1,13 @@
+ import { StrictMode } from 'react'
+ import { createRoot } from 'react-dom/client'
+ import './index.css'
+-import { ThemeProvider } from './components/theme/ThemeProvider.tsx'
+ import App from './App.tsx'
+ import { BrowserRouter } from 'react-router-dom'
+ 
+ createRoot(document.getElementById('root')!).render(
+   <StrictMode>
+-    <ThemeProvider defaultTheme='green'>
+       <BrowserRouter>
+         <App />
+       </BrowserRouter>
+-    </ThemeProvider>
+   </StrictMode>,
+ )
+diff --git a/src/pages/Done.tsx b/src/pages/Done.tsx
+index 567ebc7..971b013 100644
+--- a/src/pages/Done.tsx
++++ b/src/pages/Done.tsx
+@@ -16,11 +16,9 @@ type Task = {
+ 
+ type DoneProps = {
+   isDeployed: boolean;
+-  themeNames: string[];
+-  setTheme: (theme: string) => void;
+   };
+ 
+-export default function Done({isDeployed, themeNames, setTheme}: DoneProps) {
++export default function Done({isDeployed}: DoneProps) {
+   const location = useLocation();
+   const [tasks, setTasks] = useState<Task[]>([]);
+   const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
+@@ -67,8 +65,7 @@ return (
+       <div className="flex flex-row justify-around items-start gap-15">
+             <ThemeMenu 
+             isDeployed={isDeployed} 
+-            themeNames={themeNames} 
+-            onSelect={setTheme}/>
++            />
+       <div className="w-full flex flex-col gap-5">
+             <div className="w-full flex flex-col p-10 mt-5 rounded-[40px] gap-1 border-accent border-2 bg-secondary">
+               {doneTasks.length === 0 && <div className="text-center text-text">nothing yet!!</div>}
+diff --git a/src/pages/ToDo.tsx b/src/pages/ToDo.tsx
+index ee94c4c..79a34a2 100644
+--- a/src/pages/ToDo.tsx
++++ b/src/pages/ToDo.tsx
+@@ -17,18 +17,15 @@ type Task = {
+ 
+ type ToDoProps = {
+     isDeployed: boolean;
+-    themeNames: string[];
+-    setTheme: (theme: string) => void;
+     };
+ 
+-export default function ToDo({isDeployed, themeNames, setTheme}: ToDoProps) {
++export default function ToDo({isDeployed}: ToDoProps) {
+ 
+     const location = useLocation();
+     const [tasks, setTasks] = useState<Task[]>([]);
+     const [newTask, setNewTask] = useState("");
+     const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
+     const [editingTaskDescription, setEditingTaskDescription] = useState<string>("");
+-    const [checkedTasks, setCheckedTasks] = useState<string[]>([]);
+     const handleCreateChecklist = async () => {
+         if (newTask.trim() === "") {
+             return;
+@@ -51,6 +48,10 @@ export default function ToDo({isDeployed, themeNames, setTheme}: ToDoProps) {
+             const checklists = await getCheckList();
+             if (checklists) {
+                 setTasks(checklists);
++
++                const sortedTasks = checklists.sort((a, b) => 
++                    new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
++                    setTasks(sortedTasks);
+             }
+         }
+         fetchTasks();
+@@ -81,8 +82,6 @@ export default function ToDo({isDeployed, themeNames, setTheme}: ToDoProps) {
+         <div className="flex flex-row justify-around items-start gap-15">
+             <ThemeMenu 
+             isDeployed={isDeployed} 
+-            themeNames={themeNames} 
+-            onSelect={setTheme}
+             />
+         <div className="w-full flex flex-col gap-5">
+ 
+-- 
+2.43.0
+
