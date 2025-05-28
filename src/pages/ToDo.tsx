@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 import ThemeMenu from "../components/theme/ThemeMenu";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
@@ -26,7 +24,7 @@ export default function ToDo({isDeployed}: ToDoProps) {
         }
 
         const task: Task = {
-            id: string,
+            id: "",
             createdAt: new Date().toISOString(),
             description: newTask,
             isComplete: false,
@@ -47,8 +45,7 @@ export default function ToDo({isDeployed}: ToDoProps) {
             
             const checklists = await getChecklist();
             if (checklists) {
-                const sortedTasks = checklists.sort((a, b) =>
-
+                const sortedTasks = checklists.sort((a : any, b : any) =>
                     new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
             );
             setTasks(sortedTasks);
