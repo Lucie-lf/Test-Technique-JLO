@@ -1,11 +1,9 @@
-import { BrowserRouter as Router, Routes, Route, useLocation, Link} from 'react-router-dom'
+import { BrowserRouter as Routes, Route, useLocation, Link} from 'react-router-dom'
 import {useState} from 'react'
 import ToDo from './pages/ToDo.tsx'
 import Done from './pages/Done.tsx'
 import ParamLogo from './assets/paramLogo.tsx'
-import Title1 from './assets/Title1.tsx'
 import Title2 from './assets/Title2.tsx'
-import Fleche from './assets/Fleche.tsx'
 
 function App() {
   const [isDeployed, setIsDeployed] = useState(false)
@@ -13,7 +11,7 @@ function App() {
 
   const currentlyOnDonePage = location.pathname === '/done'
   const navTarget = currentlyOnDonePage ? '/' : '/done'
-  const navText = currentlyOnDonePage ? 'Back to tasks' : 'Finished Tasks'
+  //const navText = currentlyOnDonePage ? 'Back to tasks' : 'Finished Tasks'
 
   return (
       <>
