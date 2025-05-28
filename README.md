@@ -1,54 +1,55 @@
-# React + TypeScript + Vite
+# To-Do App – Test Technique Groupe JLO
+Ce projet est une application de type to-do list, développée en React et TypeScript avec Tailwind CSS, dans le cadre d’un test technique pour le groupe JLO.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Maquette & organisation
+- Figma [https://www.figma.com/design/UxfV03T5HdBmYbtxW3pQ1T/Test-technique-JLO?t=Aaj4ux7sc1MHG7lO-1]
+- Notion [https://www.notion.so/TEST-TECHNIQUE-1f998de146bd80f7befdc9db10e6d06b?pvs=4]
 
-Currently, two official plugins are available:
+## Fonctionnalités
+Page "ToDo" (/) :
+- Création de tâche
+- Modification de tâche
+- Suppression individuelle
+- Marquer une tâche comme réalisée
+Page "Done" (/done) :
+- Renvoyer une tâche dans les tâches à faire
+- Suppression de toutes les tâches terminées
+- Modification de tâche
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Onglet Paramètres (roue crantée) :
+4 thèmes visuels disponibles, s'appliquant à l'ensemble de l’interface
 
-## Expanding the ESLint configuration
+#" Navigation
+Un bouton dans le header permet de basculer entre les deux pages principales
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Stack Technique
+- React + TypeScript
+- Tailwind CSS pour le design responsive
+- React Router DOM pour la navigation entre pages
+- Sonner pour les toast notifs
+- Vite comme bundler
+- Yarn comme gestionnaire de paquets
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## Installation et lancement
+Assurez-vous d’avoir Node.js et Yarn installés.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+bash
+Copier
+Modifier
+git clone [git@github.com:Lucie-lf/Test-Technique-JLO.git]
+yarn dev
+Accèdez ensuite à l'application via http://localhost:5173.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Choix techniques
+- Utilisation de React Router pour un routage simple et efficace
+- Séparation claire entre tâches en cours et tâches terminées
+- Thématisation via Tailwind avec switch dynamique
+- Toast notifications avec Sonner
+- Responsive design adapté aux écrans mobiles et desktop
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## Documentation
+- https://awwwards.com/
+- https://react.dev/
+- https://tailwindcss.com/
+- https://ui.shadcn.com/docs/components/sonner
+- https://youtube.com/

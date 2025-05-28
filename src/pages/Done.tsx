@@ -54,17 +54,17 @@ useEffect(() => {
 const doneTasks = tasks.filter(task => task.isComplete);
 
 return (
-      <div className="flex flex-row justify-around items-start gap-15">
+      <div className="flex flex-row w-80 md:w-150 lg:w-200 mx-auto items-start">
             <ThemeMenu 
             isDeployed={isDeployed} 
             />
       <div className="w-full flex flex-col gap-5">
-            <div className="w-full flex flex-col p-10 mt-5 rounded-[40px] gap-1 border-accent border-2 bg-secondary">
+            <div className="w-full flex flex-col p-3 mt-5 lg:p-10 lg:mt-5 md:p-10 md:mt-8 rounded-[40px] gap-1 border-accent border-2 bg-secondary">
               {doneTasks.length === 0 && <div className="text-center text-text">nothing yet!!</div>}
               {doneTasks.map((task) => (
                 <div 
                 key={task.id}
-                className="group flex flex-row items-center px-10 hover:bg-text/20 hover:text-accent hover:font-bold p-3 rounded-2xl text-text hover:no-underline line-through">
+                className="group flex flex-row items-center  px-10 text-sm md:text-md lg:text-lg hover:bg-text/20 hover:text-accent hover:font-bold p-3 rounded-2xl text-text hover:no-underline line-through">
 
                   <input
                     type="checkbox"

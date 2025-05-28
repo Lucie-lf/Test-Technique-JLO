@@ -18,17 +18,17 @@ const ThemeMenu = ({ isDeployed}: ThemeMenuProps) => {
     }
 
     return (
-        <div className="flex flex-col gap-3 -mt-10">
+        <div className="absolute top-20 left-5 md:top-35 md:left-10 lg:top-40 lg:left-15 ">
             <div 
                 onClick={() => {
                 console.log(`Selected theme: green`);
                 setTheme("green");
                 toast.success("Theme changed to green!");
                 }}
-                    className="cursor-pointer flex flex-row justify-start gap-3 bg-text rounded-full  p-3 hover:opacity-80">
-                    <div className="green bg-primary w-6 h-6 rounded-full shadow" >
+                    className="cursor-pointer mb-3 flex flex-row justify-start gap-3 bg-text rounded-full p-2 w-fit hover:opacity-80">
+                    <div className="green bg-primary w-4 h-4 md:w-6 md:h-6 rounded-full shadow" >
                     </div>
-                    <div className="green bg-accent w-6 h-6 rounded-full shadow">
+                    <div className="green bg-accent w-4 h-4 md:w-6 md:h-6 rounded-full shadow">
                     </div>
             </div>
 
@@ -38,10 +38,10 @@ const ThemeMenu = ({ isDeployed}: ThemeMenuProps) => {
                 setTheme("pink");
                 toast.success("Theme changed to pink!");
                 }}
-                    className="cursor-pointer flex flex-row justify-start gap-3 bg-text rounded-full  p-3 hover:opacity-80">
-                    <div className="pink bg-primary w-6 h-6 rounded-full shadow" >
+                    className="cursor-pointer mb-3 flex flex-row justify-start gap-3 bg-text rounded-full p-2 w-fit hover:opacity-80">
+                    <div className="pink bg-primary w-4 h-4 md:w-6 md:h-6 rounded-full shadow" >
                     </div>
-                    <div className="pink bg-accent w-6 h-6 rounded-full shadow">
+                    <div className="pink bg-accent w-4 h-4 md:w-6 md:h-6 rounded-full shadow">
                     </div>
             </div>
 
@@ -51,10 +51,10 @@ const ThemeMenu = ({ isDeployed}: ThemeMenuProps) => {
                 setTheme("blue");
                 toast.success("Theme changed to blue!");
                 }}
-                    className="cursor-pointer flex flex-row justify-start gap-3 bg-text rounded-full  p-3 hover:opacity-80">
-                    <div className="blue bg-primary w-6 h-6 rounded-full shadow" >
+                    className="cursor-pointer mb-3 flex flex-row justify-start gap-3 bg-text rounded-full p-2 w-fit hover:opacity-80">
+                    <div className="blue bg-primary w-4 h-4 md:w-6 md:h-6 rounded-full shadow" >
                     </div>
-                    <div className="blue bg-accent w-6 h-6 rounded-full shadow">
+                    <div className="blue bg-accent w-4 h-4 md:w-6 md:h-6 rounded-full shadow">
                     </div>
             </div>
 
@@ -64,10 +64,10 @@ const ThemeMenu = ({ isDeployed}: ThemeMenuProps) => {
                 setTheme("yellow");
                 toast.success("Theme changed to yellow!");
                 }}
-                    className="cursor-pointer flex flex-row justify-start gap-3 bg-text rounded-full  p-3 hover:opacity-80">
-                    <div className="yellow bg-primary w-6 h-6 rounded-full shadow" >
+                    className="cursor-pointer mb-3 flex flex-row justify-start gap-3 bg-text rounded-full p-2 w-fit hover:opacity-80">
+                    <div className="yellow bg-primary w-4 h-4 md:w-6 md:h-6 rounded-full shadow" >
                     </div>
-                    <div className="yellow bg-accent w-6 h-6 rounded-full shadow">
+                    <div className="yellow bg-accent w-4 h-4 md:w-6 md:h-6 rounded-full shadow">
                     </div>
             </div>
         </div>
