@@ -1,4 +1,4 @@
-import { BrowserRouter as Routes, Route, useLocation, Link} from 'react-router-dom'
+import { Routes, Route, useLocation, Link} from 'react-router-dom'
 import {useState} from 'react'
 import ToDo from './pages/ToDo.tsx'
 import Done from './pages/Done.tsx'
