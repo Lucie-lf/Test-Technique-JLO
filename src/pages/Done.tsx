@@ -33,11 +33,21 @@ export default function Done({isDeployed}: DoneProps) {
 
  const handleDeleteCompletedChecklist = async () => {
    const completedChecklist = tasks.filter(task => task.isComplete);
-   const deletePromises = completedChecklist.map(task => deleteChecklist(task.id));
-  
-   await Promise.all(deletePromises);
 
-   setTasks(prev => prev.filter(task => !task.isComplete));
+  console.log("Tâches à supprimer:", completedChecklist.map(t=> t.description));
+
+   const results = await Promise.allSettled(
+    completedChecklist.map(task => deleteChecklist(task.id))
+   )
+
+  console.log("Tâches supprimées :", results);
+
+   const successfulDeletes = completedChecklist.filter((_, i) => results[i].status === "fulfilled");
+
+   setTasks(prev => 
+    prev.filter(task => 
+      !successfulDeletes.some(deleted => deleted.id === task.id)));
+
     toast.success("Completed tasks deleted successfully!");
  };
 
